@@ -1,0 +1,21 @@
+[Unit]
+Description={{ item.description.service }}
+
+[Service]
+{% if item.environment is defined %}
+Environment={% for key, value in item.environment.items() %}{{ key }}='{{ value }}'{% if not loop.last %} {% endif %}{% endfor %}
+
+{% endif %}
+Type={{ item.type | default('simple') }}
+{% if item.user is defined %}
+User={{ item.user }}
+{% endif %}
+{% if item.healthcheck_id is defined %}
+ExecStartPre=/usr/bin/curl -sS -m 3 https://hc-ping.com/{{ item.healthcheck_id }}/start
+{% endif %}
+Nice=19
+IOSchedulingClass=idle
+ExecStart=/bin/sh -c \
+    '{{ item.command }} "{{ item.src }}" "{{ item.dest }}"{% if item.healthcheck_id is defined %} ; \
+    curl -sS -m 5 --retry 5 -w " %{http_code}" https://hc-ping.com/{{ item.healthcheck_id }}/$?
+    {%- endif %}'

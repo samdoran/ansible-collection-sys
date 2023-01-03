@@ -1,0 +1,85 @@
+- name: Get services
+  service_facts:
+  tags:
+    - always
+
+- name: Disable timer units
+  systemd:
+    name: backup-{{ item.name }}.timer
+    state: stopped
+    enabled: no
+  loop: "{{ backup_jobs }}"
+  when:
+    - not item.enabled | default(True)
+    - timer_name in ansible_facts["services"]
+  vars:
+    timer_name: backup-{{ item.name }}.timer
+  tags:
+    - backup
+    - timers
+
+- name: Remove service units
+  file:
+    dest: /etc/systemd/system/backup-{{ item.name }}.service
+    state: absent
+  loop: "{{ backup_jobs }}"
+  when: not item.enabled | default(True)
+  notify: reload systemd
+  tags:
+    - backup
+    - units
+
+- name: Remove timer units
+  file:
+    dest: /etc/systemd/system/backup-{{ item.name }}.timer
+    state: absent
+  loop: "{{ backup_jobs }}"
+  when: not item.enabled | default(True)
+  notify: reload systemd
+  tags:
+    - backup
+    - timers
+
+- name: Create service units for backups
+  template:
+    src: backup.service.j2
+    dest: /etc/systemd/system/backup-{{ item.name }}.service
+  loop: "{{ backup_jobs }}"
+  when: item.enabled | default(True)
+  notify: reload systemd
+  tags:
+    - backup
+    - units
+
+- name: Enable service units for backups
+  systemd:
+    daemon_reload: yes
+    name: backup-{{ item.name }}.service
+    enabled: yes
+  when: item.enabled | default(True)
+  loop: "{{ backup_jobs }}"
+  tags:
+    - backup
+    - units
+
+- name: Create timer units for backups
+  template:
+    src: generic.timer.j2
+    dest: /etc/systemd/system/backup-{{ item.name }}.timer
+  loop: "{{ backup_jobs }}"
+  notify: reload systemd
+  when: item.enabled | default(True)
+  tags:
+    - backup
+    - timers
+
+- name: Enable timer units
+  systemd:
+    name: backup-{{ item.name }}.timer
+    enabled: yes
+    state: started
+  loop: "{{ backup_jobs }}"
+  when: item.enabled | default(True)
+  tags:
+    - backup
+    - timers

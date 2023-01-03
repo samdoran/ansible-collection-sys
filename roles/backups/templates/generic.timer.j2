@@ -1,0 +1,9 @@
+[Unit]
+Description={{ item.description.timer }}
+
+[Timer]
+OnCalendar={{ item.oncalendar | default('hourly') }}
+Persistent={{ item.persistent | default('true') | lower }}
+
+[Install]
+WantedBy=timers.target
