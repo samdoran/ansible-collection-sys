@@ -34,6 +34,7 @@
     slackiconemo: "{{ item.slackiconemo | default(omit) }}"
     slackwebhookURL: "{{ item.slackwebhookURL | default(omit) }}"
   loop: "{{ uptime_kuma_notifications['slack'] | default([]) }}"
+  no_log: yes
   tags:
     - uptime_kuma
 
@@ -101,6 +102,21 @@
   lucasheld.uptime_kuma.status_page:
     api_url: "{{ uptime_kuma_url }}"
     api_token: "{{ uptime_kuma_api_token }}"
+    state: "{{ item.state | default(omit) }}"
+    slug: "{{ item.slug }}"
+    id: "{{ item.id | default(omit) }}"
+    title: "{{ item.title | default(omit) }}"
+    description: "{{ item.description | default(omit) }}"
+    theme: "{{ item.theme | default(omit) }}"
+    published: "{{ item.published | default(omit) }}"
+    showTags: "{{ item.showTags | default(omit) }}"
+    domainNameList: "{{ item.domainNameList | default(omit) }}"
+    customCSS: "{{ item.customCSS | default(omit) }}"
+    footerText: "{{ item.footerText | default(omit) }}"
+    showPoweredBy: "{{ item.showPoweredBy | default(omit) }}"
+    icon: "{{ item.icon | default(omit) }}"
+    publicGroupList: "{{ item.publicGroupList | default(omit) }}"
+    incident: "{{ item.incident | default(omit) }}"
   loop: "{{ uptime_kuma_status_pages }}"
   tags:
     - uptime_kuma
