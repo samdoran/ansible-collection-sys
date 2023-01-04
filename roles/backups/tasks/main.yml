@@ -35,7 +35,9 @@
     state: absent
   loop: "{{ backup_jobs }}"
   when: not item.enabled | default(True)
-  notify: reload systemd
+  notify:
+    - reload systemd
+    - systemd reset failed
   tags:
     - backup
     - timers
