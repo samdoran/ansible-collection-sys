@@ -1,0 +1,16 @@
+- name: Login with credentials
+  lucasheld.uptime_kuma.login:
+    api_url: "{{ uptime_kuma_url }}"
+    api_username: "{{ uptime_kuma_username }}"
+    api_password: "{{ uptime_kuma_password }}"
+  register: kuma_login
+  tags:
+    - always
+    - uptime_kuma
+
+- debug:
+    var: kuma_login.token
+  tags:
+    - uptime_kuma
+
+

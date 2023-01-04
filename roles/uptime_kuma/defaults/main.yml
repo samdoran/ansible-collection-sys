@@ -1,0 +1,8 @@
+uptime_kuma_url: ~
+uptime_kuma_username: admin
+uptime_kuma_password: ~
+
+
+uptime_kuma_monitors: []
+uptime_kuma_notifications: {}
+uptime_kuma_status_pages: []

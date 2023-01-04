@@ -1,0 +1,54 @@
+- name: Configure Pushover notifications
+  lucasheld.uptime_kuma.notification:
+    api_url: "{{ uptime_kuma_url }}"
+    api_token: "{{ uptime_kuma_api_token }}"
+    name: "{{ item.name | default(omit) }}"
+    id: "{{ item.id | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+    isDefault: "{{ item.isDefault | default(omit) }}"
+    type: pushover
+    applyExisting: "{{ item.applyExisting | default(omit) }}"
+    pushoveruserkey: "{{ item.pushoveruserkey | default(omit) }}"
+    pushoverapptoken: "{{ item.pushoverapptoken | default(omit) }}"
+    pushoversounds: "{{ item.pushoversounds | default(omit) }}"
+    pushoverpriority: "{{ item.pushoverpriority | default(omit) }}"
+    pushovertitle: "{{ item.pushovertitle | default(omit) }}"
+    pushoverdevice: "{{ item.pushoverdevice | default(omit) }}"
+  loop: "{{ uptime_kuma_notifications['pushover'] | default([]) }}"
+  tags:
+    - uptime_kuma
+
+- name: Configure Slack notifications
+  lucasheld.uptime_kuma.notification:
+    api_url: "{{ uptime_kuma_url }}"
+    api_token: "{{ uptime_kuma_api_token }}"
+    name: "{{ item.name | default(omit) }}"
+    id: "{{ item.id | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+    isDefault: "{{ item.isDefault | default(omit) }}"
+    applyExisting: "{{ item.applyExisting | default(omit) }}"
+    type: slack
+    slackbutton: "{{ item.slackbutton | default(omit) }}"
+    slackchannel: "{{ item.slackchannel | default(omit) }}"
+    slackusername: "{{ item.slackusername | default(omit) }}"
+    slackiconemo: "{{ item.slackiconemo | default(omit) }}"
+    slackwebhookURL: "{{ item.slackwebhookURL | default(omit) }}"
+  loop: "{{ uptime_kuma_notifications['slack'] | default([]) }}"
+  tags:
+    - uptime_kuma
+
+- name: Configure monitors
+  lucasheld.uptime_kuma.monitor:
+    api_url: "{{ uptime_kuma_url }}"
+    api_token: "{{ uptime_kuma_api_token }}"
+  loop: "{{ uptime_kuma_monitors }}"
+  tags:
+    - uptime_kuma
+
+- name: Configure status pages
+  lucasheld.uptime_kuma.status_page:
+    api_url: "{{ uptime_kuma_url }}"
+    api_token: "{{ uptime_kuma_api_token }}"
+  loop: "{{ uptime_kuma_status_pages }}"
+  tags:
+    - uptime_kuma

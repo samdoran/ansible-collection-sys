@@ -1,0 +1,23 @@
+namespace: samdoran
+name: macos
+version: 0.0.1
+readme: README.md
+authors:
+  - Sam Doran <sdoran@redhat.com>
+
+description: Roles for managing systems related tasks
+
+license:
+  - GPL-2.0-or-later
+
+tags:
+  - system
+
+dependencies: {}
+
+repository: http://github.com/samdoran/ansible-collection-sys
+documentation: http://github.com/samdoran/ansible-collection-sys/README.md
+homepage: http://github.com/samdoran/ansible-collection-sys
+issues: http://github.com/samdoran/ansible-collection-sys/issues
+
+build_ignore: []
