@@ -1,0 +1,12 @@
+# Configure authorized keys
+
+- name: Link borg to /usr/bin
+  file:
+    state: link
+    src: /usr/local/bin/borg
+    dest: /usr/bin/borg
+  become: yes
+  when: ansible_facts.system_vendor == 'Synology'
+  tags:
+    - borg
+    - borg_link
