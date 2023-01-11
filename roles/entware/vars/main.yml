@@ -1,0 +1,6 @@
+_entware_installer_version:
+  aarch64: aarch64-k3.10
+  armv7l: armv7sf-k3.2
+  armv5: armv5sf-k3.2
+  x86_64: x64-k3.2
+

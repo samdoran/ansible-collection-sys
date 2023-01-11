@@ -1,0 +1,35 @@
+- name: Download Entware installer
+  get_url:
+    url: https://bin.entware.net/{{ _entware_installer_version[ansible_facts['architecture']] }}/installer/generic.sh
+    dest: /var/tmp
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - entware
+
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - "{{ entware_dir }}"
+    - "{{ entware_home_dir }}"
+  tags:
+    - entware
+
+- name: Mount /opt
+  command: mount -o bind {{ entware_home_dir }} {{ entware_dir }}
+  when: "'/opt' not in ansible_facts.mounts | map(attribute='mount') | list"
+  tags:
+    - entware
+
+- name: Install entware
+  command: /var/tmp/generic.sh
+  args:
+    creates: "{{ entware_dir }}/bin"
+  tags:
+    - entware
