@@ -1,0 +1,9 @@
+[Unit]
+Description=Scrutiny disk check
+
+[Timer]
+OnCalendar={{ scrutiny_schedule }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

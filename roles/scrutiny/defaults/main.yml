@@ -1,0 +1,7 @@
+scrutiny_schedule: '11,23:50'
+scrutiny_version: 0.5.0
+scrutiny_bin: /usr/local/bin/scrutiny-collector-metrics
+scrutiny_host_id: "{{ ansible_facts.hostname }}"
+# scrutiny_api_endpoint:
+# scrutiny_config: /opt/scrutiny/config
+# scrutiny_log_file: /opt/scrutiny/scrutiny.log
