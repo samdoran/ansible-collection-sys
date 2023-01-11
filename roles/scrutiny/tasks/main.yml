@@ -20,7 +20,7 @@
 
 - name: Copy scrutiny config
   copy:
-    content: "{{ scrutiny_config | to_nice_yaml }}"
+    content: "{{ scrutiny_config | to_nice_yaml(indent=2) }}"
     dest: "{{ scrutiny_config_file }}"
     owner: root
     group: root
