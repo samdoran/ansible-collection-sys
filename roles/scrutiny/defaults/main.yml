@@ -2,6 +2,19 @@ scrutiny_schedule: '11,23:50'
 scrutiny_version: 0.5.0
 scrutiny_bin: /usr/local/bin/scrutiny-collector-metrics
 scrutiny_host_id: "{{ ansible_facts.hostname }}"
+scrutiny_config_dir: /opt/scrutiny/config
+scrutiny_config_file: "{{ scrutiny_config_dir }}/collector.yaml"
+scrutiny_smartctl_bin: smartctl
 # scrutiny_api_endpoint:
-# scrutiny_config: /opt/scrutiny/config
 # scrutiny_log_file: /opt/scrutiny/scrutiny.log
+
+scrutiny_config:
+  version: 1
+  host:
+    id: "{{ scrutiny_host_id }}"
+
+  api:
+    endpoint: "{{ scrutiny_api_endpoint }}"
+
+  commands:
+    metrics_smartctl_bin: "{{ scrutiny_smartctl_bin }}"

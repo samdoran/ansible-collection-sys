@@ -8,6 +8,26 @@
   tags:
     - scrutiny
 
+- name: Create config dir
+  file:
+    path: "{{ scrutiny_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - scrutiny
+
+- name: Copy scrutiny config
+  copy:
+    content: "{{ scrutiny_config | to_nice_yaml }}"
+    dest: "{{ scrutiny_config_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - scrutiny
+
 - name: Create scrutiny service
   template:
     src: scrutiny.service.j2
