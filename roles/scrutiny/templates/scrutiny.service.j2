@@ -2,7 +2,7 @@
 Description=Scrutiny disk check
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart={{ scrutiny_bin }} run
 {%- if scrutiny_host_id is defined %} --host-id {{ scrutiny_host_id }}{% endif %}
 {%- if scrutiny_api_endpoint is defined %} --api-endpoint {{ scrutiny_api_endpoint }}{% endif %}
