@@ -16,7 +16,7 @@ ExecStartPre=/usr/bin/curl -sS -m 3 https://hc-ping.com/{{ item.healthcheck_id }
 Nice=19
 IOSchedulingClass=idle
 ExecStart=/bin/sh -c \
-    '{% if item.chdir is defined %}chdir {{ item.chdir }} ; \
+    '{% if item.chdir is defined %}cd {{ item.chdir }} ; \
     {% endif %}{{ item.command }} "{{ item.src }}" "{{ item.dest }}"{% if item.healthcheck_id is defined %} ; \
     curl -sS -m 5 --retry 5 -w " %{http_code}" https://hc-ping.com/{{ item.healthcheck_id }}/$?
     {%- endif %}'
