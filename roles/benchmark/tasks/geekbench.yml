@@ -1,0 +1,36 @@
+- name: Create geekbench dir
+  file:
+    path: /opt/geekbench
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - benchmark
+    - geekbench
+
+- name: Unarchive Geekbench
+  unarchive:
+    src: https://cdn.geekbench.com/{{ _benchmark_geekbench_filename[ansible_facts['architecture']] }}
+    remote_src: yes
+    dest: /opt/geekbench
+    creates: /opt/geekbench/geekbench5
+    owner: root
+    group: root
+    mode: '0755'
+    extra_opts:
+      --strip-components=1
+  tags:
+    - benchmark
+    - geekbench
+
+- name: Run Geekbench
+  command: /opt/geekbench/{{ _benchmark_geekbench_command[ansible_facts['architecture']] }}
+  register: geekbench_results
+  tags:
+    - benchmark
+    - geekbench
+
+- name: Display results
+  debug:
+    msg: "{{ geekbench_results.stdout }}"
