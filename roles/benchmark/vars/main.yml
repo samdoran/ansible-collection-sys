@@ -1,11 +1,11 @@
 _benchmark_geekbench_filename:
-  aarch64: Geekbench-{{ benchmark_geekbench_version.split('.')[:2] }}.0-LinuxARMPreview.tar.gz
-  armv7l: Geekbench-{{ benchmark_geekbench_version.split('.')[:2] }}.0-LinuxARMPreview.tar.gz
-  armv5: Geekbench-{{ benchmark_geekbench_version.split('.')[:2] }}.0-LinuxARMPreview.tar.gz
+  aarch64: Geekbench-{{ benchmark_geekbench_version[:3] }}.0-LinuxARMPreview.tar.gz
+  armv7l: Geekbench-{{ benchmark_geekbench_version[:3] }}.0-LinuxARMPreview.tar.gz
+  armv5: Geekbench-{{ benchmark_geekbench_version[:3] }}.0-LinuxARMPreview.tar.gz
   x86_64: Geekbench-{{ benchmark_geekbench_version }}-Linux.tar.gz
 
 _benchmark_geekbench_command:
   aarch64: geekbench_aarch64
   armv7l: geekbench_armv7
   armv5: geekbench_armv7
-  x86_64: geekbench{{ benchmark_geekbench_version.split('.')[0] }}
+  x86_64: geekbench{{ benchmark_geekbench_version[0] }}
