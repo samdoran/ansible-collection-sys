@@ -1,0 +1,4 @@
+_borg_packages:
+  - libacl1-dev
+  - libfuse-dev
+  - libssl-dev

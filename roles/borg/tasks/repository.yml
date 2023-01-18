@@ -1,0 +1,56 @@
+# Synology config:
+#  1. Enable SSH
+#  2. Enable the Home dir service
+#  3. Configure ssh key auth (ssh-copy-id)
+#        - add a key from helios4, no pass
+#        - add my key, for mounting archives with Vorta easily
+#  4. Create shares and folders that will hold borg backups
+#        - it's not possible to create directories via ssh
+#  5. Add SynoCommunity repo
+#        -  https://packages.synocommunity.com/
+#  6. Install Borg
+#  7. Copy repo key to control node
+#        - good use for slurp?
+#  8. Borg init the repo
+#        - --remote-path /usr/local/bin/borg -e keyfile-blake2
+# 9. Create healthcheck for backup
+
+# - name: Create borg key
+#   copy:
+#     content: "{{ borg_key }}"  # Need to put this in a vault
+#     dest: /home/sdoran/.config/borg/keys/mdnas
+#     owner: "{{ borg_user }}"
+#     mode: "0600"
+#   become: no
+#   tags:
+#     - borg
+
+# Add ssh key to known_hosts
+
+- name: Check for borg repo
+  command: >-
+    borg info
+    {{ item.host }}:{{ item.path }}
+  environment: "{{ borg_environment | default(omit) }}"
+  register: result
+  failed_when: result.rc not in [0, 1, 2]
+  become: no
+  loop: "{{ borg_repositories }}"
+  tags:
+    - borg
+
+- name: Init borg repo
+  command: >-
+    borg init
+    --encryption {{ item.encryption | default('repokey') }}
+    {{ item.host }}:{{ item.path }}
+  environment: "{{ borg_environment | default(omit) }}"
+  become: no
+  when: result.stdout is not search('Repository ID')
+  loop: "{{ borg_repositories }}"
+  tags:
+    - borg
+
+
+
+# Slurp key files

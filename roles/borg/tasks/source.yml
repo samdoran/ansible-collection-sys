@@ -1,0 +1,10 @@
+# Configure authorized keys
+
+- name: Create patterns file
+  copy:
+    content: "{{ borg_patterns }}"
+    dest: /home/sdoran/.config/borg/patterns.txt
+  become: no
+  tags:
+    - borg
+    - borg_patterns

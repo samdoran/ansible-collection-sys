@@ -1,0 +1,4 @@
+_borg_packages:
+  - fuse-libs
+  - libacl-devel
+  - openssl-devel

@@ -1,0 +1,12 @@
+borg_venv: /opt/venvs/borg
+borg_venv_python: "{{ ansible_facts.python.executable }}"
+borg_pip_packages:
+  - borgbackup
+  - llfuse
+  - wheel
+
+borg_repositories: []
+
+# borg_environment:
+#   BORG_PASSCOMMAND: cat /home/sdoran/.config/borg/keys/mdnas
+

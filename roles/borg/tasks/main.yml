@@ -1,0 +1,42 @@
+- name: Include distribution specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml"
+        - "{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_version }}.yml"
+        - "{{ ansible_facts.distribution }}.yml"
+        - "{{ ansible_facts.os_family }}.yml"
+      paths:
+        - vars
+  tags:
+    - borg
+    - always
+
+- name: Install required packages
+  action: "{{ ansible_facts.pkg_mgr }}"
+  args:
+    name: "{{ _borg_packages }}"
+    state: present
+  tags:
+    - borg
+    - packages
+
+- name: Create virtual environment
+  pip:
+    name: "{{ borg_pip_packages }}"
+    virtualenv_command: "{{ borg_venv_python }} -m venv"
+    virtualenv: "{{ borg_venv }}"
+  tags:
+    - borg
+    - packages
+
+- name: Link borg executable
+  file:
+    state: link
+    src: "{{ borg_venv }}/bin/borg"
+    dest: /usr/local/bin/borg
+    owner: root
+    group: root
+  tags:
+    - borg
