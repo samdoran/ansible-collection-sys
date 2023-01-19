@@ -1,0 +1,8 @@
+- name: Link borg executable to /usr/bin
+  file:
+    state: link
+    src: /usr/local/bin/borg
+    dest: /usr/bin/borg
+  when: ansible_facts.system_vendor == 'Synology'
+  tags:
+    - borg
