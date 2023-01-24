@@ -6,6 +6,9 @@ borg_pip_packages:
   - wheel
 
 borg_repositories: []
+borg_ssh_key_type: ed25519
+# borg_ssh_private_key: !vault |
+#   ...
 
 # borg_environment:
 #   BORG_PASSCOMMAND: cat /home/sdoran/.config/borg/keys/mdnas

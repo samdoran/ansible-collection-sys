@@ -1,5 +1,33 @@
 # Configure authorized keys
 
+- name: Get borg_user info
+  getent:
+    database: passwd
+    key: "{{ borg_user }}"
+  tags:
+    - borg
+    - borg_ssh
+
+- name: Create .ssh dir
+  file:
+    path: "{{ ansible_facts['getent_passwd'][borg_user][4] }}/.ssh/"
+    owner: "{{ borg_user }}"
+    mode: '0700'
+  tags:
+    - borg
+    - borg_ssh
+
+- name: Create private ssh key
+  copy:
+    content: "{{ borg_ssh_private_key }}"
+    dest: "{{ ansible_facts['getent_passwd'][borg_user][4] }}/.ssh/id_{{ borg_ssh_key_type }}"
+    owner: "{{ borg_user }}"
+    mode: '0600'
+  become: no
+  tags:
+    - borg
+    - borg_ssh
+
 - name: Create patterns file
   copy:
     content: "{{ borg_patterns }}"
