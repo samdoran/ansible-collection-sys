@@ -4,5 +4,6 @@ uptime_kuma_password: ~
 
 
 uptime_kuma_monitors: []
+uptime_kuma_monitor_tags: []
 uptime_kuma_notifications: {}
 uptime_kuma_status_pages: []

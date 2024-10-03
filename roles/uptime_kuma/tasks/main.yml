@@ -98,6 +98,20 @@
   tags:
     - uptime_kuma
 
+- name: Tag monitors
+  lucasheld.uptime_kuma.monitor_tag:
+    api_url: "{{ uptime_kuma_url }}"
+    api_token: "{{ uptime_kuma_api_token }}"
+    state: "{{ item.state | default(omit) }}"
+    monitor_id: "{{ item.monitor_id | default(omit) }}"
+    monitor_name: "{{ item.monitor_name | default(omit) }}"
+    tag_name: "{{ item.tag_name | default(omit) }}"
+    tag_id: "{{ item.tag_id | default(omit) }}"
+    value: "{{ item.value | default(omit) }}"
+  loop: "{{ uptime_kuma_monitor_tags }}"
+  tags:
+    - uptime_kuma
+
 - name: Configure status pages
   lucasheld.uptime_kuma.status_page:
     api_url: "{{ uptime_kuma_url }}"
